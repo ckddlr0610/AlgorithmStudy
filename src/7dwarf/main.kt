@@ -8,8 +8,7 @@ import kotlin.collections.ArrayList
  * 아홉 명의 난쟁이는 모두 자신이 "백설 공주와 일곱 난쟁이"의 주인공이라고 주장했다. 뛰어난 수학적 직관력을 가지고 있던 백설공주는, 다행스럽게도 일곱 난쟁이의 키의 합이 100이 됨을 기억해 냈다.
  * 아홉 난쟁이의 키가 주어졌을 때, 백설공주를 도와 일곱 난쟁이를 찾는 프로그램을 작성하시오.
  *
- * 예제를 입력하면 그대로 출력이 되는데 백준에서 테스트 돌리면 틀린걸로 나옴
- * 왜 에러가 나오는지 못찾았음
+ * 제출 성공
  */
 fun main(){
     var scanner = Scanner(System.`in`)
@@ -18,12 +17,11 @@ fun main(){
     var check = false
 
     for (i in 0 until 9) {
-        var input : Int
-        println("${i+1}번째 숫자를 입력하시오.")
-        input = scanner.nextInt()
+        //println("${i+1}번째 숫자를 입력하시오.")
+        var input : Int = scanner.nextInt()
         nineDwarf.add(input)
-        sum += nineDwarf[i]
     }
+    sum = nineDwarf.sum()
 
     for (i in 0 until 9){
         if (check) break
