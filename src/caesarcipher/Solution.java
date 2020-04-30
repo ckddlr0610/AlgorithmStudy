@@ -9,21 +9,20 @@ package caesarcipher;
 
 class Solution {
     public static void main(String[] args){
-        String s = "abcde";
-        String answer = solution(s, 1);
+        String s = "d c e R Z Z";
+        String answer = solution(s, 25);
         System.out.println(answer);
     }
     public static String solution(String s, int n) {
         String answer = "";
-        String array = "";
-        byte[] bytesArray = new byte[s.length()];
+        byte[] bytesArray = s.getBytes();
 
-        for (int i=0; i<s.length(); i++){
+        for (int i=0; i<bytesArray.length; i++){
             byte byteCode = (byte)s.charAt(i);
             if (byteCode>=65 && byteCode<=90 && byteCode+n>90){
-                byteCode = (byte) ((90%byteCode) + 64 + n);
+                byteCode = (byte) (((byteCode+n)%90) + 64);
             } else if (byteCode>=97 && byteCode<=122 && byteCode+n>122){
-                byteCode = (byte) ((122%byteCode) + 96 + n);
+                byteCode = (byte) (((byteCode+n)%122) + 96);
             } else if (byteCode == 32){
                 byteCode = 32;
             } else {
@@ -32,8 +31,7 @@ class Solution {
             bytesArray[i] = byteCode;
         }
 
-        array = new String(bytesArray);
-        answer = array;
+        answer = new String(bytesArray);
         return answer;
     }
 }
