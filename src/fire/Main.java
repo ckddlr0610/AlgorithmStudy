@@ -7,10 +7,11 @@
 
 package fire;
 
+
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.util.Arrays;
+import java.util.Queue;
 
 public class Main {
     static String[][] room;
@@ -44,9 +45,11 @@ public class Main {
             }
         }
 
-        move(j_y,j_x);
-    }
 
+
+        //move(j_y,j_x);
+    }
+/*
     static void move(int y, int x) {
         visited[y][x] = true;
 
@@ -67,4 +70,6 @@ public class Main {
             }
         }
     }
+
+ */
 }
