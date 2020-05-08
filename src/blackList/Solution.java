@@ -8,48 +8,75 @@
 
 package blackList;
 
+import java.util.ArrayList;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
 class Solution {
+    static int count;
+    static ArrayList<ArrayList> list;
+    static String[] user_id;
+    static String[] banned_id;
+    static boolean[] visited;
     public static int solution(String[] user_id, String[] banned_id) {
         int answer = 0;
-        int[] result = new int[banned_id.length];
+        count = 0;
+        list = new ArrayList<>();
+//        this.user_id = user_id;
+//        this.banned_id = banned_id;
 
-        for (int i=0; i<banned_id.length; i++){
-            String bannedId = banned_id[i];
-            int len = bannedId.length();
-            for (int j=0; j<user_id.length; j++){
-                String userId = user_id[j];
-                int count = 0;
-                if (!(len==userId.length())){
-                    continue;
-                }
-                for (int z=0; z<len; z++){
-                    if (bannedId.charAt(z)=='*'){
-                        count++;
-                        continue;
-                    }
-                    if (bannedId.charAt(z)==userId.charAt(z)){
-                        count++;
-                        continue;
-                    }
-                }
-                if (count == len) {
-                    result[i]++;
-                }
-            }
-        }
-        answer = result[0];
-        for (int i=1; i<result.length; i++) {
-            answer = answer*result[i];
-        }
+        visited = new boolean[user_id.length];
+
+        dfs(visited, 0);
+
+        answer = count;
 
         return answer;
     }
 
-    public static void main(String[] args){
-        String[] userId = {"frodo", "fradi", "crodo", "abc123", "frodoc"};
-        String[] bannedId = {"fr*d*", "*rodo", "******", "******"};
+    static void dfs(boolean[] visited, int idx) {
+        if (idx==banned_id.length) {
+            ArrayList<String> tempList = new ArrayList<>();
+            for (int i=0; i<visited.length; i++) {
+                if (visited[i]) {
+                    String temp = user_id[i];
+                    tempList.add(temp);
+                }
+            }
 
-        int result = solution(userId,bannedId);
+            if (list.isEmpty()) {
+                list.add(tempList);
+                count++;
+            }
+
+            for (int i=0; i<list.size(); i++) {
+                ArrayList<String> listCopy = list.get(i);
+                if (!listCopy.contains(tempList)) {
+                    list.add(tempList);
+                    count++;
+                }
+            }
+            return;
+        }
+
+        for (int i=0; i<user_id.length; i++) {
+            String s = banned_id[idx].replace('*', '.');
+            Pattern pattern = Pattern.compile(s);
+            Matcher matcher = pattern.matcher(user_id[i]);
+
+            if (matcher.find() && (user_id[i].length() == banned_id[idx].length())) {
+                    visited[i] = true;
+                    dfs(visited, idx+1);
+                    visited[i] = false;
+            }
+        }
+    }
+
+    public static void main(String[] args){
+        user_id = new String[]{"frodo", "fradi", "crodo", "abc123", "frodoc"};
+        banned_id = new String[]{"fr*d*", "*rodo", "******", "******"};
+
+        int result = solution(user_id, banned_id);
         System.out.println(result);
     }
 }
